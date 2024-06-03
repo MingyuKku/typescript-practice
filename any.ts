@@ -9,3 +9,7 @@ type test4 = 1 & boolean;
 
 type test5 = 1 & number[];
 
+
+type Any = 0 & any;
+type Never = 0 & never;
+
