@@ -69,3 +69,75 @@ type RemappedPerson2 = StringKeysOnly<Person>;
 //     "/admin": {};
 //     "/admin/users": {};
 // }
+
+interface Values {
+    email: string;
+    firstName: string;
+    lastName: string;
+}
+
+
+type ValuesAsUnionOfTuples = {
+    [K in keyof Values]: [ K, Values[K] ];
+};
+// 위 타입은 다음과 같다
+// type ValuesAsUnionOfTuples = {
+//     email: ["email", string];
+//     firstName: ["firstName", string];
+//     lastName: ["lastName", string];
+// }
+
+
+type ValuesAsUnionOfTuples2 = ValuesAsUnionOfTuples[keyof Values];
+// 위 타입은 다음과 같다
+// ["firstName", string] | ["lastName", string] | ["email", string]
+
+
+interface FruitMap {
+    apple: 'red';
+    banana: 'yellow';
+    orange: 'orange';
+}
+
+type TransformedFruit = {
+    [K in keyof FruitMap]: `${K}:${FruitMap[K]}`
+}[keyof FruitMap];
+
+// 위 타입은 아래와 같다
+// "orange:orange" | "apple:red" | "banana:yellow"
+
+
+type Fruit = 
+| {
+    name: 'apple',
+    color: 'red'
+}
+| {
+    name: 'banana',
+    color: 'yellow'
+}
+| {
+    name: 'orange',
+    color: 'orange'
+}
+
+type TransformedFruit2 = {
+    [K in Fruit as K['name']]: `${K['name']}:${K['color']}`;
+};
+// type TransformedFruit2 = {
+//     apple: "apple:red";
+//     banana: "banana:yellow";
+//     orange: "orange:orange";
+// }
+
+type TransformedFruit3 = TransformedFruit2[Fruit['name']]
+// "orange:orange" | "apple:red" | "banana:yellow"
+
+
+type TestObj2 = {
+    kakaka: '하하하' | '히히히';
+    hahaha: '후후후' | '헤헤헤';
+}
+
+type REWD = TestObj2[keyof TestObj2]
+// type REWD = "하하하" | "히히히" | "후후후" | "헤헤헤"
