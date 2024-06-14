@@ -190,3 +190,34 @@ const flattenArray = (arr: any[]): any[] => {
 };
 
 const flatArray = flattenArray(nestedArray);
+
+
+const fetchData = async <T>(url: string) => {
+    const data: T = await fetch(url).then(res => res.json());
+    return data;
+}
+
+
+interface TestData {
+    time: string;
+    name: string;
+    id: number;
+}
+
+const res = fetchData<TestData>('/products');
+
+
+
+const getValue = <TObj, TKey extends keyof TObj>(obj: TObj, key: TKey): TObj[TKey] => {
+    return obj[key];
+}
+
+const obj10 = {
+    a: 1,
+    b: 'some-thing',
+    c: true,
+}
+
+const numberResult = getValue(obj10, 'a'); // number
+const stringResult = getValue(obj10, 'b'); // string
+const booleanResult = getValue(obj10, 'c'); // boolean
